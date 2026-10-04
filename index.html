@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Đổi Thập Phân Sang Nhị Phân</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
+            color: #1e293b;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 17px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #4f46e5;
+        }
+
+        .input-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 18px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #6366f1;
+        }
+
+        button {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 10px;
+            background: #4f46e5;
+            color: white;
+            font-size: 17px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #3730a3;
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            background: #eef2ff;
+            display: none;
+        }
+
+        .binary {
+            font-size: 30px;
+            font-weight: bold;
+            color: #7c3aed;
+            text-align: center;
+            margin: 15px;
+            letter-spacing: 4px;
+        }
+
+        .step {
+            background: #f8fafc;
+            padding: 12px;
+            margin: 8px 0;
+            border-left: 5px solid #6366f1;
+            border-radius: 8px;
+        }
+
+        .example {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 12px;
+            line-height: 1.7;
+        }
+
+        .note {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            .input-box {
+                flex-direction: column;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>💻 TIN HỌC 11</h1>
+    <p>Chuyển đổi từ hệ thập phân sang hệ nhị phân</p>
+</header>
+
+
+<div class="container">
+
+    <!-- PHẦN NHẬP SỐ -->
+    <div class="card">
+
+        <h2>🔢 Nhập số cần chuyển đổi</h2>
+
+        <p>
+            Nhập một số nguyên không âm trong hệ thập phân:
+        </p>
+
+        <div class="input-box">
+
+            <input
+                type="number"
+                id="decimalInput"
+                min="0"
+                placeholder="Ví dụ: 25"
+            >
+
+            <button onclick="convert()">
+                Chuyển đổi
+            </button>
+
+        </div>
+
+        <div id="result">
+
+            <h2>Kết quả</h2>
+
+            <div id="binaryResult" class="binary"></div>
+
+            <h3>📖 Các bước thực hiện:</h3>
+
+            <div id="steps"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PHẦN LÝ THUYẾT -->
+    <div class="card">
+
+        <h2>📚 Cách chuyển từ thập phân sang nhị phân</h2>
+
+        <p>
+            Để chuyển một số từ hệ thập phân sang hệ nhị phân,
+            ta thực hiện phép <b>chia liên tiếp cho 2</b>.
+        </p>
+
+        <ol>
+            <li>Chia số thập phân cho 2.</li>
+            <li>Ghi lại số dư.</li>
+            <li>Lấy thương tiếp tục chia cho 2.</li>
+            <li>Lặp lại cho đến khi thương bằng 0.</li>
+            <li>Đọc các số dư từ dưới lên trên.</li>
+        </ol>
+
+        <div class="note">
+            💡 <b>Lưu ý:</b> Các số dư chỉ có thể là <b>0</b> hoặc <b>1</b>
+            vì đây là hệ nhị phân.
+        </div>
+
+    </div>
+
+
+    <!-- VÍ DỤ -->
+    <div class="card">
+
+        <h2>✏️ Ví dụ: Đổi 25 sang hệ nhị phân</h2>
+
+        <div class="example">
+
+            <b>25 ÷ 2 = 12 dư 1</b><br>
+            <b>12 ÷ 2 = 6 dư 0</b><br>
+            <b>6 ÷ 2 = 3 dư 0</b><br>
+            <b>3 ÷ 2 = 1 dư 1</b><br>
+            <b>1 ÷ 2 = 0 dư 1</b>
+
+            <br><br>
+
+            Đọc các số dư từ dưới lên:
+
+            <div class="binary">
+                11001
+            </div>
+
+            Vậy:
+
+            <b>25₁₀ = 11001₂</b>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+    💻 Trang web Tin học 11 | Chuyển đổi hệ thập phân → nhị phân
+</footer>
+
+
+<script>
+
+function convert() {
+
+    let input = document.getElementById("decimalInput").value;
+
+    let number = Number(input);
+
+    if (input === "" || number < 0 || !Number.isInteger(number)) {
+
+        alert("Vui lòng nhập một số nguyên không âm!");
+
+        return;
+    }
+
+    let original = number;
+
+    let remainders = [];
+
+    let stepsHTML = "";
+
+    // Trường hợp số 0
+    if (number === 0) {
+
+        document.getElementById("binaryResult").textContent = "0";
+
+        document.getElementById("steps").innerHTML =
+            "<div class='step'>0 là số nhị phân của 0.</div>";
+
+        document.getElementById("result").style.display = "block";
+
+        return;
+    }
+
+
+    // Chia liên tiếp cho 2
+    while (number > 0) {
+
+        let quotient = Math.floor(number / 2);
+
+        let remainder = number % 2;
+
+        remainders.push(remainder);
+
+        stepsHTML += `
+            <div class="step">
+                ${number} ÷ 2 = ${quotient}
+                <b>dư ${remainder}</b>
+            </div>
+        `;
+
+        number = quotient;
+    }
+
+
+    // Đảo ngược các số dư
+    let binary = remainders.reverse().join("");
+
+
+    document.getElementById("binaryResult").textContent =
+        original + "₁₀ = " + binary + "₂";
+
+
+    document.getElementById("steps").innerHTML =
+        stepsHTML +
+        `<div class="step">
+            ⭐ Đọc các số dư từ dưới lên:
+            <b>${binary}</b>
+        </div>`;
+
+
+    document.getElementById("result").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
